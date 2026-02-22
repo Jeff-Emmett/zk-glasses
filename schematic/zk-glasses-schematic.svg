@@ -1,0 +1,612 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <style>
+      text { font-family: 'Courier New', monospace; }
+      .title { font-size: 18px; fill: #c5c8c6; font-weight: bold; }
+      .subtitle { font-size: 12px; fill: #969896; }
+      .ref { font-size: 11px; fill: #b294bb; font-weight: bold; }
+      .val { font-size: 10px; fill: #81a2be; }
+      .net { font-size: 10px; fill: #b5bd68; font-weight: bold; }
+      .pin { font-size: 9px; fill: #969896; }
+      .wire { stroke: #c5c8c6; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .wire-pwr { stroke: #cc6666; stroke-width: 2; fill: none; stroke-linecap: round; }
+      .wire-gnd { stroke: #969896; stroke-width: 1.5; fill: none; stroke-linecap: round; }
+      .comp { stroke: #c5c8c6; stroke-width: 1.5; fill: none; }
+      .comp-fill { stroke: #c5c8c6; stroke-width: 1.5; fill: #282a2e; }
+      .ic-fill { stroke: #b294bb; stroke-width: 2; fill: #1d1f21; }
+      .led-fill { stroke: #cc6666; stroke-width: 1.5; fill: rgba(204,102,102,0.15); }
+      .led-ir { stroke: #b294bb; stroke-width: 1.5; fill: rgba(178,148,187,0.15); }
+      .mosfet-fill { stroke: #81a2be; stroke-width: 1.5; fill: #1d1f21; }
+      .cap-fill { stroke: #81a2be; stroke-width: 1.5; fill: none; }
+      .batt-fill { stroke: #de935f; stroke-width: 2; fill: none; }
+      .dot { fill: #c5c8c6; }
+      .gnd-sym { stroke: #969896; stroke-width: 1.5; fill: none; }
+      .vcc-sym { stroke: #cc6666; stroke-width: 1.5; fill: none; }
+      .frame { stroke: #373b41; stroke-width: 1; fill: none; }
+      .section { stroke: #373b41; stroke-width: 0.5; fill: none; stroke-dasharray: 4,4; }
+      .section-label { font-size: 11px; fill: #5e6266; font-style: italic; }
+      .beam { fill: url(#irGlow); }
+    </style>
+    <linearGradient id="irGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#b294bb;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#b294bb;stop-opacity:0" />
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#b5bd68"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="900" fill="#1d1f21"/>
+
+  <!-- Border frame -->
+  <rect x="10" y="10" width="1380" height="880" class="frame"/>
+  <rect x="15" y="15" width="1370" height="870" class="frame"/>
+
+  <!-- Title block -->
+  <rect x="15" y="830" width="1370" height="55" class="frame"/>
+  <text x="30" y="855" class="title">ZK-GLASSES  /  IR Anti-Surveillance Eyewear  /  Driver Circuit</text>
+  <text x="30" y="875" class="subtitle">ATtiny85 PWM Controller  |  16x 940nm IR LEDs  |  LiPo 3.7V 500mAh  |  Rev 1.0  |  2026-02-21</text>
+  <text x="1200" y="855" class="subtitle">Sheet 1/1</text>
+  <text x="1200" y="875" class="subtitle">zk-glasses.svg</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION: Power Supply (left side)                      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="25" y="30" width="350" height="380" class="section" rx="8"/>
+  <text x="35" y="48" class="section-label">POWER SUPPLY</text>
+
+  <!-- Battery BT1 -->
+  <line x1="80" y1="120" x2="80" y2="145" class="batt-fill"/>
+  <line x1="65" y1="145" x2="95" y2="145" class="batt-fill" stroke-width="3"/>
+  <line x1="72" y1="155" x2="88" y2="155" class="batt-fill" stroke-width="1.5"/>
+  <line x1="80" y1="155" x2="80" y2="180" class="batt-fill"/>
+  <text x="55" y="118" class="ref">BT1</text>
+  <text x="95" y="150" class="val">LiPo</text>
+  <text x="95" y="162" class="val">3.7V</text>
+  <text x="95" y="174" class="val">500mAh</text>
+  <text x="68" y="138" class="pin">+</text>
+  <text x="72" y="170" class="pin">-</text>
+
+  <!-- GND symbol under battery -->
+  <line x1="80" y1="180" x2="80" y2="195" class="wire-gnd"/>
+  <line x1="68" y1="195" x2="92" y2="195" class="gnd-sym"/>
+  <line x1="72" y1="200" x2="88" y2="200" class="gnd-sym"/>
+  <line x1="76" y1="205" x2="84" y2="205" class="gnd-sym"/>
+
+  <!-- Wire from BT1+ up to switch -->
+  <line x1="80" y1="120" x2="80" y2="80" class="wire-pwr"/>
+
+  <!-- Slide Switch SW2 -->
+  <line x1="80" y1="80" x2="80" y2="70" class="wire-pwr"/>
+  <circle cx="80" cy="70" r="3" class="comp" fill="#1d1f21"/>
+  <line x1="80" y1="67" x2="120" y2="55" class="wire-pwr" stroke-width="2"/>
+  <circle cx="120" cy="55" r="3" class="comp" fill="#1d1f21"/>
+  <line x1="120" y1="55" x2="120" y2="50" class="wire-pwr"/>
+  <text x="55" y="65" class="ref">SW2</text>
+  <text x="55" y="78" class="val">SPDT</text>
+  <text x="85" y="90" class="pin">Power</text>
+
+  <!-- VCC rail from switch -->
+  <line x1="120" y1="50" x2="120" y2="40" class="wire-pwr"/>
+  <!-- VCC symbol -->
+  <line x1="115" y1="40" x2="125" y2="40" class="vcc-sym"/>
+  <line x1="120" y1="40" x2="120" y2="33" class="vcc-sym"/>
+  <text x="128" y="38" class="net">VCC 3.7V</text>
+
+  <!-- TP4056 Charge Board -->
+  <rect x="170" y="80" width="130" height="70" class="ic-fill" rx="4"/>
+  <text x="200" y="105" class="ref">TP4056</text>
+  <text x="193" y="120" class="val">USB-C Charger</text>
+  <text x="197" y="135" class="val">w/ Protection</text>
+
+  <!-- TP4056 pins -->
+  <text x="148" y="95" class="pin">USB+</text>
+  <line x1="170" y1="92" x2="155" y2="92" class="wire"/>
+  <text x="148" y="140" class="pin">USB-</text>
+  <line x1="170" y1="137" x2="155" y2="137" class="wire"/>
+
+  <!-- USB-C icon -->
+  <rect x="130" y="85" width="22" height="14" rx="4" class="comp-fill"/>
+  <text x="133" y="96" style="font-size:8px;fill:#969896">USB</text>
+  <line x1="152" y1="92" x2="155" y2="92" class="wire"/>
+
+  <!-- TP4056 BAT+ output -->
+  <line x1="300" y1="92" x2="340" y2="92" class="wire-pwr"/>
+  <text x="302" y="88" class="pin">BAT+</text>
+  <line x1="340" y1="92" x2="340" y2="50" class="wire-pwr"/>
+  <line x1="340" y1="50" x2="120" y2="50" class="wire-pwr"/>
+  <circle cx="120" cy="50" r="2.5" class="dot"/>
+
+  <!-- TP4056 BAT- output -->
+  <line x1="300" y1="137" x2="340" y2="137" class="wire-gnd"/>
+  <text x="302" y="133" class="pin">BAT-</text>
+  <line x1="340" y1="137" x2="340" y2="195" class="wire-gnd"/>
+  <line x1="328" y1="195" x2="352" y2="195" class="gnd-sym"/>
+  <line x1="332" y1="200" x2="348" y2="200" class="gnd-sym"/>
+  <line x1="336" y1="205" x2="344" y2="205" class="gnd-sym"/>
+
+  <!-- Charging LED indicators (small) -->
+  <circle cx="185" y="160" r="3" fill="rgba(204,102,102,0.4)" stroke="#cc6666" stroke-width="1"/>
+  <text x="192" y="163" style="font-size:8px;fill:#cc6666">CHG</text>
+  <circle cx="245" y="160" r="3" fill="rgba(181,189,104,0.4)" stroke="#b5bd68" stroke-width="1"/>
+  <text x="252" y="163" style="font-size:8px;fill:#b5bd68">DONE</text>
+
+  <!-- Decoupling cap C1 -->
+  <line x1="250" y1="50" x2="250" y2="230" class="wire"/>
+  <circle cx="250" cy="50" r="2.5" class="dot"/>
+  <line x1="240" y1="228" x2="260" y2="228" class="cap-fill" stroke-width="2"/>
+  <line x1="240" y1="235" x2="260" y2="235" class="cap-fill" stroke-width="2"/>
+  <line x1="250" y1="235" x2="250" y2="255" class="wire-gnd"/>
+  <line x1="238" y1="255" x2="262" y2="255" class="gnd-sym"/>
+  <line x1="242" y1="260" x2="258" y2="260" class="gnd-sym"/>
+  <line x1="246" y1="265" x2="254" y2="265" class="gnd-sym"/>
+  <text x="263" y="225" class="ref">C1</text>
+  <text x="263" y="238" class="val">100nF</text>
+
+  <!-- Voltage Divider for battery sense -->
+  <text x="35" y="245" class="section-label">BATT SENSE</text>
+
+  <!-- R20 top -->
+  <line x1="80" y1="250" x2="80" y2="265" class="wire"/>
+  <!-- Resistor body R20 -->
+  <rect x="72" y="265" width="16" height="40" class="comp-fill" rx="2"/>
+  <text x="92" y="282" class="ref">R20</text>
+  <text x="92" y="294" class="val">100k</text>
+  <!-- Junction between R20 and R21 -->
+  <line x1="80" y1="305" x2="80" y2="315" class="wire"/>
+  <circle cx="80" cy="315" r="2.5" class="dot"/>
+  <!-- Line out to VBAT label -->
+  <line x1="80" y1="315" x2="130" y2="315" class="wire"/>
+  <text x="133" y="319" class="net">VBAT_SENSE</text>
+  <!-- R21 bottom -->
+  <line x1="80" y1="315" x2="80" y2="325" class="wire"/>
+  <rect x="72" y="325" width="16" height="40" class="comp-fill" rx="2"/>
+  <text x="92" y="342" class="ref">R21</text>
+  <text x="92" y="354" class="val">100k</text>
+  <line x1="80" y1="365" x2="80" y2="385" class="wire-gnd"/>
+  <line x1="68" y1="385" x2="92" y2="385" class="gnd-sym"/>
+  <line x1="72" y1="390" x2="88" y2="390" class="gnd-sym"/>
+  <line x1="76" y1="395" x2="84" y2="395" class="gnd-sym"/>
+
+  <!-- Connect R20 top to VCC -->
+  <line x1="80" y1="250" x2="80" y2="240" class="wire-pwr"/>
+  <line x1="80" y1="240" x2="120" y2="240" class="wire-pwr"/>
+  <line x1="120" y1="240" x2="120" y2="50" class="wire-pwr"/>
+  <circle cx="120" cy="240" r="2.5" class="dot"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION: Microcontroller (center)                      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="400" y="30" width="320" height="470" class="section" rx="8"/>
+  <text x="410" y="48" class="section-label">MICROCONTROLLER</text>
+
+  <!-- ATtiny85 IC body -->
+  <rect x="470" y="120" width="160" height="200" class="ic-fill" rx="6"/>
+  <!-- IC notch -->
+  <path d="M 545 120 A 10 10 0 0 1 555 120" class="ic-fill" fill="none"/>
+
+  <text x="510" y="175" class="title" style="font-size:16px;fill:#b294bb">ATtiny85</text>
+  <text x="518" y="195" class="val" style="font-size:11px">DIP-8</text>
+  <text x="520" y="210" class="val" style="font-size:9px">8MHz int.</text>
+
+  <!-- Pin labels (left side: 1-4) -->
+  <!-- Pin 1: PB5/RESET -->
+  <line x1="470" y1="155" x2="430" y2="155" class="wire"/>
+  <text x="475" y="159" class="pin" style="text-anchor:start">PB5</text>
+  <text x="393" y="159" class="pin">(RST) 1</text>
+
+  <!-- Pin 2: PB3 (status LED) -->
+  <line x1="470" y1="195" x2="430" y2="195" class="wire"/>
+  <text x="475" y="199" class="pin" style="text-anchor:start">PB3</text>
+  <text x="410" y="199" class="pin">2</text>
+
+  <!-- Pin 3: PB4 (ADC - battery sense) -->
+  <line x1="470" y1="235" x2="430" y2="235" class="wire"/>
+  <text x="475" y="239" class="pin" style="text-anchor:start">PB4</text>
+  <text x="410" y="239" class="pin">3</text>
+
+  <!-- Pin 4: GND -->
+  <line x1="470" y1="275" x2="430" y2="275" class="wire-gnd"/>
+  <text x="475" y="279" class="pin" style="text-anchor:start">GND</text>
+  <text x="410" y="279" class="pin">4</text>
+
+  <!-- Pin labels (right side: 5-8) -->
+  <!-- Pin 5: PB0 (LED_L) -->
+  <line x1="630" y1="275" x2="680" y2="275" class="wire"/>
+  <text x="620" y="279" class="pin" style="text-anchor:end">PB0</text>
+  <text x="685" y="279" class="pin">5</text>
+
+  <!-- Pin 6: PB1 (LED_R) -->
+  <line x1="630" y1="235" x2="680" y2="235" class="wire"/>
+  <text x="620" y="239" class="pin" style="text-anchor:end">PB1</text>
+  <text x="685" y="239" class="pin">6</text>
+
+  <!-- Pin 7: PB2 (Button) -->
+  <line x1="630" y1="195" x2="680" y2="195" class="wire"/>
+  <text x="620" y="199" class="pin" style="text-anchor:end">PB2</text>
+  <text x="685" y="199" class="pin">7</text>
+
+  <!-- Pin 8: VCC -->
+  <line x1="630" y1="155" x2="680" y2="155" class="wire-pwr"/>
+  <text x="620" y="159" class="pin" style="text-anchor:end">VCC</text>
+  <text x="685" y="159" class="pin">8</text>
+
+  <!-- VCC connection to pin 8 -->
+  <line x1="680" y1="155" x2="700" y2="155" class="wire-pwr"/>
+  <line x1="700" y1="155" x2="700" y2="80" class="wire-pwr"/>
+  <line x1="700" y1="80" x2="340" y2="80" class="wire-pwr"/>
+  <line x1="340" y1="80" x2="340" y2="50" class="wire-pwr"/>
+  <circle cx="340" cy="80" r="2.5" class="dot"/>
+  <text x="705" y="85" class="net">VCC</text>
+
+  <!-- GND connection from pin 4 -->
+  <line x1="430" y1="275" x2="430" y2="310" class="wire-gnd"/>
+  <line x1="418" y1="310" x2="442" y2="310" class="gnd-sym"/>
+  <line x1="422" y1="315" x2="438" y2="315" class="gnd-sym"/>
+  <line x1="426" y1="320" x2="434" y2="320" class="gnd-sym"/>
+
+  <!-- RST pullup to VCC -->
+  <line x1="430" y1="155" x2="430" y2="100" class="wire"/>
+  <rect x="422" y="100" width="16" height="30" class="comp-fill" rx="2"/>
+  <line x1="430" y1="100" x2="430" y2="80" class="wire-pwr"/>
+  <line x1="430" y1="80" x2="340" y2="80" class="wire-pwr"/>
+  <circle cx="430" cy="80" r="2.5" class="dot"/>
+  <text x="445" y="112" class="ref">R22</text>
+  <text x="445" y="124" class="val">10k</text>
+
+  <!-- PB3 → Status LED path -->
+  <line x1="430" y1="195" x2="430" y2="380" class="wire"/>
+  <!-- R19 resistor -->
+  <rect x="422" y="380" width="16" height="35" class="comp-fill" rx="2"/>
+  <text x="445" y="395" class="ref">R19</text>
+  <text x="445" y="407" class="val">330R</text>
+  <line x1="430" y1="415" x2="430" y2="430" class="wire"/>
+  <!-- Status LED -->
+  <polygon points="420,430 440,430 430,450" class="led-fill" fill="rgba(181,189,104,0.3)"/>
+  <line x1="420" y1="450" x2="440" y2="450" class="led-fill"/>
+  <!-- LED arrows -->
+  <line x1="442" y1="435" x2="450" y2="428" class="wire" stroke="#b5bd68" stroke-width="1"/>
+  <polygon points="450,428 446,432 449,432" fill="#b5bd68"/>
+  <line x1="445" y1="440" x2="453" y2="433" class="wire" stroke="#b5bd68" stroke-width="1"/>
+  <polygon points="453,433 449,437 452,437" fill="#b5bd68"/>
+  <text x="455" y="443" class="ref">LED1</text>
+  <text x="455" y="455" class="val">Green</text>
+  <line x1="430" y1="450" x2="430" y2="470" class="wire-gnd"/>
+  <line x1="418" y1="470" x2="442" y2="470" class="gnd-sym"/>
+  <line x1="422" y1="475" x2="438" y2="475" class="gnd-sym"/>
+  <line x1="426" y1="480" x2="434" y2="480" class="gnd-sym"/>
+
+  <!-- PB4 → VBAT_SENSE -->
+  <line x1="430" y1="235" x2="380" y2="235" class="wire"/>
+  <line x1="380" y1="235" x2="380" y2="315" class="wire"/>
+  <line x1="380" y1="315" x2="130" y2="315" class="wire"/>
+  <circle cx="130" cy="315" r="0" class="dot"/>
+  <text x="383" y="290" class="net" style="font-size:9px" transform="rotate(-90,383,290)">VBAT_SENSE</text>
+
+  <!-- PB2 → Button -->
+  <line x1="680" y1="195" x2="700" y2="195" class="wire"/>
+  <line x1="700" y1="195" x2="700" y2="360" class="wire"/>
+  <!-- Button symbol -->
+  <circle cx="700" cy="360" r="3" class="comp" fill="#1d1f21"/>
+  <line x1="700" y1="363" x2="700" y2="375" class="wire"/>
+  <line x1="690" y1="375" x2="710" y2="375" class="comp"/>
+  <line x1="688" y1="385" x2="712" y2="385" class="comp"/>
+  <line x1="700" y1="385" x2="700" y2="400" class="wire"/>
+  <!-- Push button bridge -->
+  <line x1="693" y1="370" x2="715" y2="362" class="comp" stroke-width="2"/>
+  <circle cx="700" cy="400" r="0" class="dot"/>
+  <line x1="700" y1="400" x2="700" y2="415" class="wire-gnd"/>
+  <line x1="688" y1="415" x2="712" y2="415" class="gnd-sym"/>
+  <line x1="692" y1="420" x2="708" y2="420" class="gnd-sym"/>
+  <line x1="696" y1="425" x2="704" y2="425" class="gnd-sym"/>
+  <text x="715" y="370" class="ref">SW1</text>
+  <text x="715" y="383" class="val">Tact</text>
+  <text x="715" y="396" class="val">6x6mm</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION: LED Drivers (right side)                      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="740" y="30" width="640" height="790" class="section" rx="8"/>
+  <text x="750" y="48" class="section-label">IR LED DRIVER — 16x 940nm</text>
+
+  <!-- ──── LEFT LED GROUP (PB0 → Q1 → 8 LEDs) ──── -->
+
+  <!-- Wire from PB0 to gate resistor R17 -->
+  <line x1="680" y1="275" x2="780" y2="275" class="wire"/>
+  <text x="750" y="270" class="net">LED_L</text>
+
+  <!-- R17 gate resistor -->
+  <rect x="780" y="267" width="35" height="16" class="comp-fill" rx="2"/>
+  <text x="787" y="262" class="ref">R17</text>
+  <text x="788" y="292" class="val">1k</text>
+
+  <!-- Wire to MOSFET Q1 gate -->
+  <line x1="815" y1="275" x2="845" y2="275" class="wire"/>
+
+  <!-- MOSFET Q1 symbol -->
+  <rect x="845" y="230" width="70" height="90" class="mosfet-fill" rx="4"/>
+  <text x="860" y="255" class="ref">Q1</text>
+  <text x="852" y="270" class="val">IRLML6344</text>
+  <text x="855" y="285" class="val">N-MOSFET</text>
+  <text x="855" y="300" class="val">SOT-23</text>
+  <!-- Gate pin -->
+  <text x="830" y="279" class="pin">G</text>
+  <!-- Drain pin (top) -->
+  <line x1="880" y1="230" x2="880" y2="200" class="wire"/>
+  <text x="885" y="225" class="pin">D</text>
+  <!-- Source pin (bottom) -->
+  <line x1="880" y1="320" x2="880" y2="350" class="wire-gnd"/>
+  <text x="885" y="340" class="pin">S</text>
+  <line x1="868" y1="350" x2="892" y2="350" class="gnd-sym"/>
+  <line x1="872" y1="355" x2="888" y2="355" class="gnd-sym"/>
+  <line x1="876" y1="360" x2="884" y2="360" class="gnd-sym"/>
+
+  <!-- VCC rail for LEDs -->
+  <line x1="880" y1="80" x2="1350" y2="80" class="wire-pwr" stroke-width="2.5"/>
+  <line x1="700" y1="80" x2="880" y2="80" class="wire-pwr"/>
+  <circle cx="880" cy="80" r="2.5" class="dot"/>
+  <text x="1100" y="72" class="net" style="font-size:12px">VCC RAIL (3.7V)</text>
+
+  <!-- LEFT LED array (8 LEDs with individual resistors) -->
+  <!-- LED row at y=100-200, spread across x=790-1060 -->
+  <g>
+    <!-- 8 parallel LED+R branches from VCC to Q1 drain -->
+    <!-- Branch pattern: VCC → R → LED → Q1_Drain -->
+
+    <!-- LED L1 -->
+    <line x1="800" y1="80" x2="800" y2="100" class="wire"/>
+    <rect x="794" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="800" y1="125" x2="800" y2="135" class="wire"/>
+    <polygon points="793,135 807,135 800,152" class="led-ir"/>
+    <line x1="793" y1="152" x2="807" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="800" y1="152" x2="800" y2="165" class="wire"/>
+    <text x="790" y="97" class="pin" style="font-size:7px">R1</text>
+
+    <!-- LED L2 -->
+    <line x1="835" y1="80" x2="835" y2="100" class="wire"/>
+    <rect x="829" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="835" y1="125" x2="835" y2="135" class="wire"/>
+    <polygon points="828,135 842,135 835,152" class="led-ir"/>
+    <line x1="828" y1="152" x2="842" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="835" y1="152" x2="835" y2="165" class="wire"/>
+    <text x="825" y="97" class="pin" style="font-size:7px">R2</text>
+
+    <!-- LED L3 -->
+    <line x1="870" y1="80" x2="870" y2="100" class="wire"/>
+    <rect x="864" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="870" y1="125" x2="870" y2="135" class="wire"/>
+    <polygon points="863,135 877,135 870,152" class="led-ir"/>
+    <line x1="863" y1="152" x2="877" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="870" y1="152" x2="870" y2="165" class="wire"/>
+    <text x="860" y="97" class="pin" style="font-size:7px">R3</text>
+
+    <!-- LED L4 -->
+    <line x1="905" y1="80" x2="905" y2="100" class="wire"/>
+    <rect x="899" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="905" y1="125" x2="905" y2="135" class="wire"/>
+    <polygon points="898,135 912,135 905,152" class="led-ir"/>
+    <line x1="898" y1="152" x2="912" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="905" y1="152" x2="905" y2="165" class="wire"/>
+    <text x="895" y="97" class="pin" style="font-size:7px">R4</text>
+
+    <!-- LED L5 -->
+    <line x1="940" y1="80" x2="940" y2="100" class="wire"/>
+    <rect x="934" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="940" y1="125" x2="940" y2="135" class="wire"/>
+    <polygon points="933,135 947,135 940,152" class="led-ir"/>
+    <line x1="933" y1="152" x2="947" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="940" y1="152" x2="940" y2="165" class="wire"/>
+    <text x="930" y="97" class="pin" style="font-size:7px">R5</text>
+
+    <!-- LED L6 -->
+    <line x1="975" y1="80" x2="975" y2="100" class="wire"/>
+    <rect x="969" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="975" y1="125" x2="975" y2="135" class="wire"/>
+    <polygon points="968,135 982,135 975,152" class="led-ir"/>
+    <line x1="968" y1="152" x2="982" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="975" y1="152" x2="975" y2="165" class="wire"/>
+    <text x="965" y="97" class="pin" style="font-size:7px">R6</text>
+
+    <!-- LED L7 -->
+    <line x1="1010" y1="80" x2="1010" y2="100" class="wire"/>
+    <rect x="1004" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="1010" y1="125" x2="1010" y2="135" class="wire"/>
+    <polygon points="1003,135 1017,135 1010,152" class="led-ir"/>
+    <line x1="1003" y1="152" x2="1017" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="1010" y1="152" x2="1010" y2="165" class="wire"/>
+    <text x="1000" y="97" class="pin" style="font-size:7px">R7</text>
+
+    <!-- LED L8 -->
+    <line x1="1045" y1="80" x2="1045" y2="100" class="wire"/>
+    <rect x="1039" y="100" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="1045" y1="125" x2="1045" y2="135" class="wire"/>
+    <polygon points="1038,135 1052,135 1045,152" class="led-ir"/>
+    <line x1="1038" y1="152" x2="1052" y2="152" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="1045" y1="152" x2="1045" y2="165" class="wire"/>
+    <text x="1035" y="97" class="pin" style="font-size:7px">R8</text>
+
+    <!-- Common drain bus connecting all LED cathodes to Q1 drain -->
+    <line x1="800" y1="165" x2="1045" y2="165" class="wire"/>
+    <line x1="880" y1="165" x2="880" y2="200" class="wire"/>
+    <circle cx="880" cy="165" r="2.5" class="dot"/>
+
+    <!-- IR emission glow effects (decorative) -->
+    <ellipse cx="920" cy="100" rx="160" ry="25" class="beam"/>
+
+    <!-- Label -->
+    <text x="800" y="185" class="ref" style="font-size:10px">D1–D8: TSAL6200 (940nm, 8× parallel)</text>
+    <text x="800" y="197" class="val">R1–R8: 47R  (each: If = (3.7-1.3)/47 = 51mA)</text>
+  </g>
+
+  <!-- ──── RIGHT LED GROUP (PB1 → Q2 → 8 LEDs) ──── -->
+
+  <!-- Wire from PB1 to gate resistor R18 -->
+  <line x1="680" y1="235" x2="720" y2="235" class="wire"/>
+  <line x1="720" y1="235" x2="720" y2="510" class="wire"/>
+  <line x1="720" y1="510" x2="780" y2="510" class="wire"/>
+  <text x="750" y="505" class="net">LED_R</text>
+
+  <!-- R18 gate resistor -->
+  <rect x="780" y="502" width="35" height="16" class="comp-fill" rx="2"/>
+  <text x="787" y="497" class="ref">R18</text>
+  <text x="788" y="527" class="val">1k</text>
+
+  <!-- Wire to MOSFET Q2 gate -->
+  <line x1="815" y1="510" x2="845" y2="510" class="wire"/>
+
+  <!-- MOSFET Q2 symbol -->
+  <rect x="845" y="465" width="70" height="90" class="mosfet-fill" rx="4"/>
+  <text x="860" y="490" class="ref">Q2</text>
+  <text x="852" y="505" class="val">IRLML6344</text>
+  <text x="855" y="520" class="val">N-MOSFET</text>
+  <text x="855" y="535" class="val">SOT-23</text>
+  <text x="830" y="514" class="pin">G</text>
+  <line x1="880" y1="465" x2="880" y2="435" class="wire"/>
+  <text x="885" y="460" class="pin">D</text>
+  <line x1="880" y1="555" x2="880" y2="585" class="wire-gnd"/>
+  <text x="885" y="575" class="pin">S</text>
+  <line x1="868" y1="585" x2="892" y2="585" class="gnd-sym"/>
+  <line x1="872" y1="590" x2="888" y2="590" class="gnd-sym"/>
+  <line x1="876" y1="595" x2="884" y2="595" class="gnd-sym"/>
+
+  <!-- RIGHT LED array -->
+  <g>
+    <!-- VCC taps for right group -->
+    <line x1="800" y1="80" x2="800" y2="80" class="wire"/>
+
+    <!-- LED R1 -->
+    <line x1="800" y1="335" x2="800" y2="355" class="wire"/>
+    <rect x="794" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="800" y1="310" x2="800" y2="335" class="wire-pwr"/>
+    <line x1="800" y1="355" x2="800" y2="370" class="wire"/>
+    <polygon points="793,370 807,370 800,387" class="led-ir"/>
+    <line x1="793" y1="387" x2="807" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="800" y1="387" x2="800" y2="400" class="wire"/>
+    <text x="790" y="328" class="pin" style="font-size:7px">R9</text>
+
+    <!-- LED R2 -->
+    <line x1="835" y1="335" x2="835" y2="355" class="wire"/>
+    <rect x="829" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="835" y1="310" x2="835" y2="335" class="wire-pwr"/>
+    <line x1="835" y1="355" x2="835" y2="370" class="wire"/>
+    <polygon points="828,370 842,370 835,387" class="led-ir"/>
+    <line x1="828" y1="387" x2="842" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="835" y1="387" x2="835" y2="400" class="wire"/>
+
+    <!-- LED R3 -->
+    <line x1="870" y1="335" x2="870" y2="355" class="wire"/>
+    <rect x="864" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="870" y1="310" x2="870" y2="335" class="wire-pwr"/>
+    <line x1="870" y1="355" x2="870" y2="370" class="wire"/>
+    <polygon points="863,370 877,370 870,387" class="led-ir"/>
+    <line x1="863" y1="387" x2="877" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="870" y1="387" x2="870" y2="400" class="wire"/>
+
+    <!-- LED R4 -->
+    <line x1="905" y1="335" x2="905" y2="355" class="wire"/>
+    <rect x="899" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="905" y1="310" x2="905" y2="335" class="wire-pwr"/>
+    <line x1="905" y1="355" x2="905" y2="370" class="wire"/>
+    <polygon points="898,370 912,370 905,387" class="led-ir"/>
+    <line x1="898" y1="387" x2="912" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="905" y1="387" x2="905" y2="400" class="wire"/>
+
+    <!-- LED R5 -->
+    <line x1="940" y1="335" x2="940" y2="355" class="wire"/>
+    <rect x="934" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="940" y1="310" x2="940" y2="335" class="wire-pwr"/>
+    <line x1="940" y1="355" x2="940" y2="370" class="wire"/>
+    <polygon points="933,370 947,370 940,387" class="led-ir"/>
+    <line x1="933" y1="387" x2="947" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="940" y1="387" x2="940" y2="400" class="wire"/>
+
+    <!-- LED R6 -->
+    <line x1="975" y1="335" x2="975" y2="355" class="wire"/>
+    <rect x="969" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="975" y1="310" x2="975" y2="335" class="wire-pwr"/>
+    <line x1="975" y1="355" x2="975" y2="370" class="wire"/>
+    <polygon points="968,370 982,370 975,387" class="led-ir"/>
+    <line x1="968" y1="387" x2="982" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="975" y1="387" x2="975" y2="400" class="wire"/>
+
+    <!-- LED R7 -->
+    <line x1="1010" y1="335" x2="1010" y2="355" class="wire"/>
+    <rect x="1004" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="1010" y1="310" x2="1010" y2="335" class="wire-pwr"/>
+    <line x1="1010" y1="355" x2="1010" y2="370" class="wire"/>
+    <polygon points="1003,370 1017,370 1010,387" class="led-ir"/>
+    <line x1="1003" y1="387" x2="1017" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="1010" y1="387" x2="1010" y2="400" class="wire"/>
+
+    <!-- LED R8 -->
+    <line x1="1045" y1="335" x2="1045" y2="355" class="wire"/>
+    <rect x="1039" y="335" width="12" height="25" class="comp-fill" rx="1.5"/>
+    <line x1="1045" y1="310" x2="1045" y2="335" class="wire-pwr"/>
+    <line x1="1045" y1="355" x2="1045" y2="370" class="wire"/>
+    <polygon points="1038,370 1052,370 1045,387" class="led-ir"/>
+    <line x1="1038" y1="387" x2="1052" y2="387" stroke="#b294bb" stroke-width="1.5"/>
+    <line x1="1045" y1="387" x2="1045" y2="400" class="wire"/>
+
+    <!-- VCC bus for right group -->
+    <line x1="800" y1="310" x2="1045" y2="310" class="wire-pwr"/>
+    <line x1="920" y1="310" x2="920" y2="80" class="wire-pwr"/>
+    <circle cx="920" cy="80" r="2.5" class="dot"/>
+    <circle cx="920" cy="310" r="2.5" class="dot"/>
+
+    <!-- Common drain bus for right group -->
+    <line x1="800" y1="400" x2="1045" y2="400" class="wire"/>
+    <line x1="880" y1="400" x2="880" y2="435" class="wire"/>
+    <circle cx="880" cy="400" r="2.5" class="dot"/>
+
+    <!-- IR glow -->
+    <ellipse cx="920" cy="335" rx="160" ry="25" class="beam"/>
+
+    <!-- Label -->
+    <text x="800" y="420" class="ref" style="font-size:10px">D9–D16: TSAL6200 (940nm, 8× parallel)</text>
+    <text x="800" y="432" class="val">R9–R16: 47R  (each: If = 51mA, total group = 408mA)</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- NOTES section (bottom right)                           -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="740" y="610" width="640" height="210" class="section" rx="8"/>
+  <text x="750" y="628" class="section-label">DESIGN NOTES</text>
+
+  <text x="760" y="650" class="val" style="font-size:11px;fill:#c5c8c6">Circuit Summary:</text>
+  <text x="760" y="668" class="val" style="font-size:10px">
+    ATtiny85 generates PWM on PB0/PB1 → gates two IRLML6344 N-MOSFETs
+  </text>
+  <text x="760" y="683" class="val" style="font-size:10px">
+    Each MOSFET switches a bank of 8 IR LEDs (940nm) with individual 47R limiters
+  </text>
+  <text x="760" y="698" class="val" style="font-size:10px">
+    Total max draw: 16 × 51mA = 816mA + MCU overhead ≈ 820mA
+  </text>
+  <text x="760" y="713" class="val" style="font-size:10px">
+    Runtime at full power: 500mAh / 820mA ≈ 36 min
+  </text>
+  <text x="760" y="728" class="val" style="font-size:10px">
+    Pulsed modes (30/60Hz, 50% duty) double runtime to ~72 min
+  </text>
+
+  <text x="760" y="755" class="val" style="font-size:11px;fill:#c5c8c6">Component Count:</text>
+  <text x="760" y="773" class="val" style="font-size:10px">
+    1× ATtiny85  |  2× IRLML6344  |  16× TSAL6200  |  16× 47R  |  3× misc R
+  </text>
+  <text x="760" y="788" class="val" style="font-size:10px">
+    1× 100nF cap  |  1× TP4056 module  |  1× LiPo 500mAh  |  2× switches  |  1× status LED
+  </text>
+  <text x="760" y="803" class="val" style="font-size:10px;fill:#de935f">
+    Estimated BOM cost: ~$15 USD (through-hole prototype)
+  </text>
+
+  <!-- Decorative IR wave symbol in corner -->
+  <g transform="translate(1300,660)" opacity="0.3">
+    <circle cx="0" cy="0" r="10" stroke="#b294bb" stroke-width="1.5" fill="none"/>
+    <circle cx="0" cy="0" r="20" stroke="#b294bb" stroke-width="1" fill="none"/>
+    <circle cx="0" cy="0" r="30" stroke="#b294bb" stroke-width="0.5" fill="none"/>
+    <text x="-5" y="5" style="font-size:12px;fill:#b294bb;font-weight:bold">IR</text>
+  </g>
+
+</svg>
